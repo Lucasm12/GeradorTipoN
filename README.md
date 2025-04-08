@@ -1,0 +1,2 @@
+# GeradorTipoN
+GeradorTipoN
