@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Dados</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    #nomes, #datas, #emails, #cpfs {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+	    border-radius:5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: 1px #0056b3 solid;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+	  border-radius:5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+<div class="container">
+  <label for="pkConta">PK_Conta:</label>
+  <input type="number" id="pkConta" autofocus required>
+  
+  <label for="pkLocacao">PK_Locacao:</label>
+  <input type="number" id="pkLocacao" required>
+
+  <label for="condComecial">Condicao Comercial:</label>
+  <input type="number" id="condComercial" required>
+
+</div>
+<br>
+
+<div class="container">
+  <label for="qtdRegistros">Quantidade de Registros:</label>
+  <input type="number" id="qtdRegistros" min="1" value="1">
+  <button onclick="gerarArquivo()">Gerar Arquivo</button>
+  <div id="cpfs"></div>
+
+  <!-- <button onclick="limparTela()">Limpar Tela</button> -->
+</div>
+</div>
+<script>
+  function gerarCPF() {
+    var cpf = '';
+    for (var i = 0; i < 9; i++) {
+      cpf += Math.floor(Math.random() * 10);
+    }
+
+    var soma = 0;
+    for (var i = 0; i < 9; i++) {
+      soma += cpf.charAt(i) * (10 - i);
+    }
+
+    var resto = 11 - (soma % 11);
+    var digito1 = resto === 10 || resto === 11 ? 0 : resto;
+
+    cpf += digito1;
+
+    soma = 0;
+    for (var i = 0; i < 10; i++) {
+      soma += cpf.charAt(i) * (11 - i);
+    }
+
+    resto = 11 - (soma % 11);
+    var digito2 = resto === 10 || resto === 11 ? 0 : resto;
+
+    cpf += digito2;
+
+    return cpf;
+  }
+  function gerarDataNascimento(){
+	
+	 // const quantidade = document.getElementById('quantidade-datas').value;
+      var dataNascimento = '';
+	
+	 // for (var j = 0; j < quantidade; j++) {
+		const anoInicio = 1950;
+		const anoFim = 2005;
+		const dia = Math.floor(Math.random() * 25) + 1
+		const mes = Math.floor(Math.random() * 12) + 1;
+		const ano = Math.floor(Math.random() * (anoFim - anoInicio + 1)) + anoInicio;
+	
+    dataNascimento = `${String(dia).padStart(2, '0')}${String(mes).padStart(2, '0')}${ano}`;
+		//dataNascimento += `${String(dia).padStart(2, '0')}${String(mes).padStart(2, '0')}${ano}` + '<br>';
+	  //}
+	
+	  //document.getElementById('datas').innerHTML = 'Datas Gerados:<br>' + dataNascimento;
+    return dataNascimento
+  }
+
+  function gerarCPFs() {
+    //var quantidade = document.getElementById('quantidade-cpf').value;
+    var cpfs = '';
+
+    //for (var j = 0; j < quantidade; j++) {
+      var cpfAleatorio = gerarCPF();
+      
+    //  cpfs += cpfAleatorio + '<br>';
+   // }
+
+   // document.getElementById('cpfs').innerHTML = 'CPFs Gerados:<br>' + cpfs;
+   return cpfAleatorio;
+  }
+
+  function gerarNomes() {
+   // var quantidade = document.getElementById('quantidade').value;
+    var nomes = '';
+    
+    const listaNomes = ["Aline","Bruno","Carla","Daniel","Eduarda","Felipe","Gabriela","Henrique","Isabela","Joao","Karen","Lucas","Mariana","Nathan","Olivia","Pedro","Queila","Rafael","Sofia","Thiago","Ursula","Vitor","Wanessa","Xavier","Yasmin","Ze","Ana","Carlos","Diego","Elisa","Fernando","Gisele","Hugo","Igor","Julia","Karine","Leonardo","Monica","Natasha","Otavio"];
+    const listaSobrenomes = ["Silva", "Ribeiro", "Santos", "Costa", "Oliveira", "Pereira", "Rodrigues", "Almeida", "Nunes", "Lima", "Ferreira", "Cavalcanti", "Barbosa", "Mendes", "Melo", "Barros", "Cardoso", "Araujo", "Gomes", "Correia", "Dias", "Castro", "Carvalho", "Campos", "Borges", "Sousa", "Moraes", "Teixeira", "Dutra", "Freitas"];
+	  const listaComposto = ["Santana", "Alves", "Zarafe", "Zangief", "Alabasta", "Santana", "Zarantonello", "Fioravanti", "Carmezim", "Bennett", "Chevalier", "Granadier", "Ivanov", "Kimura", "Schneider", "Fioritti"];
+
+   // for (var j = 0; j < quantidade; j++) {
+      var nomeAleatorio = listaNomes[Math.floor(Math.random() * listaNomes.length)].toUpperCase();
+      var sobrenomeAleatorio = listaSobrenomes[Math.floor(Math.random() * listaSobrenomes.length)].toUpperCase();
+      var compostoAleatorio = listaComposto[Math.floor(Math.random() * listaComposto.length)].toUpperCase();
+	  
+      nomes = nomeAleatorio + ' ' + sobrenomeAleatorio + ' ' + compostoAleatorio;
+      //nomes += nomeAleatorio + ' ' + sobrenomeAleatorio + ' ' + compostoAleatorio + '<br>';
+   // }
+
+   // document.getElementById('nomes').innerHTML = 'Nomes e Sobrenomes Gerados:<br>' + nomes;
+      return nomes;
+  }
+
+  function gerarEmails() {
+   // var quantidade = document.getElementById('quantidade-email').value;
+    var emails = '';
+
+    const listaNomes = ["Aline","Bruno","Carla","Daniel","Eduarda","Felipe","Gabriela","Henrique","Isabela","Joao","Karen","Lucas","Mariana","Nathan","Olivia","Pedro","Queila","Rafael","Sofia","Thiago","Ursula","Vitor","Wanessa","Xavier","Yasmin","Ze","Ana","Carlos","Diego","Elisa","Fernando","Gisele","Hugo","Igor","Julia","Karine","Leonardo","Monica","Natasha","Otavio"];
+    const listaSobrenomes = ["Silva", "Ribeiro", "Santos", "Costa", "Oliveira", "Pereira", "Rodrigues", "Almeida", "Nunes", "Lima", "Ferreira", "Cavalcanti", "Barbosa", "Mendes", "Melo", "Barros", "Cardoso", "Araujo", "Gomes", "Correia", "Dias", "Castro", "Carvalho", "Campos", "Borges", "Sousa", "Moraes", "Teixeira", "Dutra", "Freitas", "Santana", "Alves", "Zarafe", "Zangief", "Alabasta", "Santana", "Zarantonello", "Fioravanti", "Carmezim", "Bennett", "Chevalier", "Granadier", "Ivanov", "Kimura", "Schneider", "Fioritti"];
+    var provedores = ["gmail.com", "hotmail.com", "yahoo.com", "outlook.com"];
+
+    //  for (var j = 0; j < quantidade; j++) {
+      var nomeAleatorio = listaNomes[Math.floor(Math.random() * listaNomes.length)];
+      var sobrenomeAleatorio = listaSobrenomes[Math.floor(Math.random() * listaSobrenomes.length)];
+      var provedorAleatorio = provedores[Math.floor(Math.random() * provedores.length)];
+      var numeroAleatorio = Math.floor(Math.random() * 900000) + 100000;
+
+      var email = nomeAleatorio  + sobrenomeAleatorio + "_" + numeroAleatorio + "@" + provedorAleatorio;
+      
+
+    //  emails += email + '<br>';
+   // }
+
+   // document.getElementById('emails').innerHTML = 'Emails Gerados:<br>' + emails;
+      return email;
+  }
+
+  function gerarRG() {
+    const parteNumerica = Math.floor(Math.random() * 90000000) + 10000000;
+    const digitoVerificador = Math.floor(Math.random() * 10);
+    
+    const rg = parteNumerica.toString() + digitoVerificador;
+    
+    return rg;
+  }
+
+  function gerarNumeroCelular() {
+    const numero = Math.floor(Math.random() * 900000000) + 100000000;
+    
+    return numero.toString();
+  }
+
+  function getDataAtual() {
+    const data = new Date();
+
+    const dia = String(data.getDate()).padStart(2, '0'); // Obter o dia e garantir que tenha dois dígitos
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Obter o mês (0-11) e adicionar 1 para obter o mês real e garantir que tenha dois dígitos
+    const ano = data.getFullYear(); // Obter o ano
+
+    return `${dia}${mes}${ano}`;
+  }
+
+  function getHoraAtual() {
+    const data = new Date();
+    
+    const hora = String(data.getHours()).padStart(2, '0');       // Obtém a hora e garante que tenha dois dígitos
+    const minuto = String(data.getMinutes()).padStart(2, '0');   // Obtém o minuto e garante que tenha dois dígitos
+    const segundo = String(data.getSeconds()).padStart(2, '0');  // Obtém o segundo e garante que tenha dois dígitos
+    
+    const horario = hora + minuto + segundo;
+    
+    return horario;
+}
+
+  function limparTela() {
+    document.getElementById('cpfs').innerHTML = '';
+    document.getElementById('nomes').innerHTML = '';
+    document.getElementById('emails').innerHTML = '';
+	  document.getElementById('datas').innerHTML = '';
+  }
+
+  function removerAcentosECaracteresEspeciais(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f|\u00b4|\u0060|\u005e|\u007e]/g, "");
+  }
+
+  function downloadTxt(content, header, trailer, filename) {
+    // Combinar conteúdo, cabeçalho e rodapé
+    const fullContent = `${header}\n${content}\n${trailer}`;
+
+    // Criar um objeto Blob
+    const blob = new Blob([fullContent], { type: 'text/plain' });
+
+    // Criar um URL de objeto a partir do Blob
+    const url = URL.createObjectURL(blob);
+
+    // Criar um elemento <a> para o link de download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'file.txt';
+    a.textContent = 'Baixar arquivo';
+
+    // Adicionar o elemento <a> ao corpo do documento
+    document.body.appendChild(a);
+
+    // Clicar no elemento <a> para iniciar o download
+    a.click();
+
+    // Remover o elemento <a> do corpo do documento
+    document.body.removeChild(a);
+
+    // Liberar o URL de objeto
+    URL.revokeObjectURL(url);
+}
+
+async function requestAPI() {
+    const resultados = [];
+
+    try {
+        const response = await fetch('https://randomuser.me/api/?nat=br&results=5000');
+        const data = await response.json();
+
+        for (let i = 0; i < data.results.length; i++) {
+            const nome = data.results[i].name.first;
+            const sobrenome = data.results[i].name.last;
+            const nomeCompleto = `${nome} ${sobrenome}`;
+
+            resultados.push(nomeCompleto);
+           // console.log(nomeCompleto);
+        }
+
+        //console.log(resultados.join(', '));
+        //console.log(resultados);
+
+        return resultados; // Retorna a array com todos os nomes completos
+    } catch (error) {
+        console.error('Erro ao obter nome aleatório:', error);
+        return null;
+    }
+}
+
+async function gerarArquivo(){
+    const quantidade = document.getElementById('qtdRegistros').value;
+    var registro = '';
+    const pkConta = document.getElementById('pkConta').value;
+    const pkLocacao = document.getElementById('pkLocacao').value;
+    const condComercial = document.getElementById('condComercial').value;
+    const dataAtual = getDataAtual();
+    const horaAtual = getHoraAtual();
+
+    const header = '1|H|MOVIMENTACAO|' + pkConta + '|' + dataAtual + horaAtual;
+    const qtdLinhas = +quantidade+2;
+    const trailer = qtdLinhas + '|T|' + quantidade + '|0|0|0|0|0|0|' + qtdLinhas + '\n';
+
+    const nomearquivo = 'TesteMovCadastralArquivo_conta' + pkConta + '_' + dataAtual + horaAtual;
+   // const requsestAPI = 'https://randomuser.me/api/?nat=br&results=' + quantidade
+
+   let totalExibido = 0;
+   const chamarApi = 0;
+   var nomes = '';
+   var nomesParaExibir = '';
+        
+        while (totalExibido < quantidade) {
+              if(chamarApi){
+                nomes = await requestAPI();
+                nomesParaExibir = Math.min(quantidade - totalExibido, nomes.length);
+              }
+              else{
+                nomesParaExibir = quantidade;
+              }
+              
+            for (var j = 0; j < nomesParaExibir; j++) {
+
+                
+
+                if(chamarApi){
+                  var nome = removerAcentosECaracteresEspeciais(nomes[j].toUpperCase());
+                }
+                else{
+                  var nome = gerarNomes();
+                }
+
+                
+                var tipoMov = 'N';
+                var cpf = gerarCPFs();
+                var rg = gerarRG();
+                var nomeMae = gerarNomes();
+                var dtNascimento = gerarDataNascimento();
+                var email = gerarEmails();
+                var telefone = gerarNumeroCelular();
+                var dataMov = dataAtual;
+                var inicioVigencia = dataAtual;
+                
+                registro += totalExibido + 2 + '|' + tipoMov + '|' + condComercial + '||' + nome + '|' + cpf + '|' + rg + '|SSP|' + nomeMae + '|' + dtNascimento + '|3||1|RUA OSCAR FREIRE|1375||PINHEIROS|SAO PAULO|SP|05409010|1|11|' + telefone + '||||||1|1|50|' + dataMov + '|' + inicioVigencia + '||4||||||||||' + pkLocacao + '|' + email + '|15|||||||||||||';
+
+                totalExibido++
+
+                if (totalExibido < quantidade) {
+                    registro += "\n"; // Adicionar a quebra de linha
+                }
+            
+            }
+
+            
+        }
+
+            //console.log(registro);
+            downloadTxt(registro, header, trailer, nomearquivo);
+       
+}
+
+// Função para inicializar os campos com valores padrão
+function inicializarCampos() {
+    document.getElementById('pkConta').value = '13664';
+    document.getElementById('pkLocacao').value = '260474';
+    document.getElementById('condComercial').value = '31361';
+}
+
+// Função para validar o formulário
+function validarFormulario() {
+    const pkConta = document.getElementById('pkConta').value;
+    const pkLocacao = document.getElementById('pkLocacao').value;
+    const condComercial = document.getElementById('condComercial').value;
+    const quantidade = document.getElementById('qtdRegistros').value;
+
+    if (!pkConta || !pkLocacao || !condComercial || !quantidade) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return false;
+    }
+
+    if (isNaN(quantidade) || quantidade < 1 || quantidade > 1000) {
+        alert('A quantidade deve ser um número entre 1 e 1000.');
+        return false;
+    }
+
+    return true;
+}
+
+// Inicializar os campos quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    inicializarCampos();
+});
+
+</script>
+
+</body>
+</html>
